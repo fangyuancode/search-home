@@ -1,0 +1,17 @@
+/* css中定义变量 */
+:root {
+  --primary-color: #ff9854;
+  /* 全局修改search样式 */
+  --van-search-left-icon-color: #ff9854 !important;
+}
+
+body {
+  font-size: 14px;
+}
+/* 添加类，隐藏tabbar */
+.hidetabbar {
+  position: relative;
+  z-index: 9;
+  background-color: #fff;
+  overflow-y: auto;
+}

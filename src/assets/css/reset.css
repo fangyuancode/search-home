@@ -1,0 +1,23 @@
+body,h1,h2,h3,h4,ul,li {
+    padding: 0;
+    margin: 0;
+  }
+  ul,li {
+    list-style: none;
+  }
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+  img {
+    /* 设置元素的垂直排列的.用来定义行内元素的基线相对于该元素所在行的基线的垂直对齐
+  vertical-align常用属性值
+  baseline：默认值，元素放置在父元素的基线上。
+  top：把元素的顶端与行中最高元素的顶端对齐；
+  middle：把此元素放置在父元素的中部。
+  bottom：把元素的顶端与行中最低的元素的顶端对齐。
+      */
+    vertical-align: top;
+  }
+  
+  
