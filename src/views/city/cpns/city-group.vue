@@ -1,12 +1,12 @@
 <template>
     <div class="group">
-        <van-index-bar>
+        <van-index-bar :index-list="indexList">
 
             <!-- 热门数据 -->
             <van-index-anchor index="热门" />
             <div class="list">
                 <template v-for="(city, index) in groupData.hotCities">
-                    <div class="city">
+                    <div class="city" @click="cityClick(city)">
                         {{ city.cityName }}
                     </div>
                 </template>
@@ -15,31 +15,41 @@
             <template v-for="group in groupData.cities">
                 <van-index-anchor :index="group.group" />
                 <template v-for="(city, indey) in group.cities" :key="indey">
-                    <van-cell :title="city.cityName" />
+                    <van-cell :title="city.cityName" @click="cityClick(city)" />
                 </template>
             </template>
         </van-index-bar>
 
-
-        <!-- <template v-for="group in groupData.cities">
-            <h2>标题：{{ group.group }}</h2>
-            <div class="list">
-                <div class="item">
-                    <template v-for="(city, indey) in group.cities" :key="indey">
-                        <div class="city">{{ city.cityName }}</div>
-                    </template>
-                </div>
-            </div>
-        </template> -->
     </div>
 </template>
 <script setup>
-defineProps({
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import useCityStore from '@/store/modules/city';
+// 定义props
+const props = defineProps({
     groupData: {
         type: Object,
         default: () => ({})
     }
 })
+// 动态索引
+const indexList = computed(() => {
+    let list = props.groupData.cities.map(item => item.group)
+    list.unshift("#");
+    return list;
+})
+
+// 监听城市的点击
+const router = useRouter();
+const cityStore = useCityStore();
+const cityClick = (city) => {
+    console.log(city);
+    // 选中当前城市
+    cityStore.currentCity = city;
+    // 返回上一级
+    router.back();
+}
 </script>
 <style lang="less" scoped>
 .list {

@@ -1,17 +1,65 @@
 <template>
     <div class="search-box">
+        <!-- 位置信息 -->
         <div class="location">
-            <div class="city" @click="cityClick">广州</div>
+            <div class="city" @click="cityClick">{{ currentCity.cityName }}</div>
             <div class="position" @click="positionClick">
                 <span class="text">我的位置</span>
                 <img src="@/assets/img/home/icon_location.png" alt="">
             </div>
         </div>
+
+        <!-- 日期范围 -->
+        <div class="date-range" @click="showCalender = true">
+            <div class="start">
+                <div class="date">
+                    <span class="tip">入住</span>
+                    <span class="time">{{ startDate }}</span>
+                </div>
+            </div>
+            <div class="stay">
+                共{{ stayCount }}晚
+            </div>
+            <div class="end">
+                <div class="date">
+                    <span class="tip">离店</span>
+                    <span class="time">{{ endDate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <van-calendar v-model:show="showCalender" type="range" @confirm="onConfirm" :formatter="formatter"
+            color="#ff9854" />
+
+        <!-- 价格和人数的选择 -->
+        <div class="pricecount">
+            <div class="start">价格不限</div>
+            <div class="end">人数不限</div>
+        </div>
+        <div class="keyword"><span>
+                关键字/位置/民宿
+            </span></div>
+        <!-- 热门建议 -->
+        <div class="hot-suggest">
+            <template v-for="(item, index) in hotSuggests" :key="index">
+                <div class="item" :style="{
+                    color: item.tagText.color,
+                    background: item.tagText.background.color
+                }">
+                    {{ item.tagText.text }}</div>
+            </template>
+        </div>
     </div>
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
+import useCityStore from '@/store/modules/city'
+import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
+import { formatMonthDay, getDiffDate } from '@/utils/format_date';
+import useHomeStore from '@/store/modules/home'
 const router = useRouter();
+
 // 获取城市的位置
 const cityClick = () => {
     router.push('/city');
@@ -30,6 +78,48 @@ const positionClick = () => {
         maximumAge: 0
     })
 }
+// 获取当前城市
+
+const cityStore = useCityStore();
+const { currentCity } = storeToRefs(cityStore);
+
+// 日期范围的处理
+
+const nowDate = new Date();
+// 格式化当前时间
+const startDate = ref(formatMonthDay(nowDate));
+// setDate() 方法用于设置一个月的某一天,getDate() 方法可返回月份的某一天。
+const newDate = new Date()
+newDate.setDate(nowDate.getDate() + 1);
+const endDate = ref(formatMonthDay(newDate));
+const stayCount = ref(getDiffDate(nowDate, newDate));
+
+// 日历
+const formatter = (day) => {
+    if (day.type === 'start') {
+        day.bottomInfo = '入住';
+    } else if (day.type === 'end') {
+        day.bottomInfo = '离店';
+    }
+    return day;
+};
+const showCalender = ref(false)
+const onConfirm = (value) => {
+    // 1. 设置日期
+    const selectStartDate = value[0];
+    const selectEnDate = value[1];
+    startDate.value = formatMonthDay(selectStartDate);
+    endDate.value = formatMonthDay(selectEnDate)
+    stayCount.value = getDiffDate(selectStartDate, selectEnDate)
+    // 2. 隐藏日历
+    showCalender.value = false;
+}
+
+//  热门建议
+const homeStore = useHomeStore();
+homeStore.fetchHotSuggestData();
+const { hotSuggests } = storeToRefs(homeStore);
+
 </script>
 <style lang="less" scoped>
 .location {
@@ -40,7 +130,7 @@ const positionClick = () => {
     // align-items: center;
 
     .city {
-        margin-left: 10px;
+        margin-left: 20px;
     }
 
     .position {
@@ -57,6 +147,97 @@ const positionClick = () => {
         img {
             width: 18px;
         }
+    }
+}
+
+.date-range {
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    // background-color: pink;
+    align-items: center;
+    border-top: 1px solid #f2f2f2;
+
+
+    .start {
+        margin-left: 20px;
+
+        .date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .tip {
+                color: #808080;
+                font-size: 13px;
+                margin-left: -20px;
+                margin-bottom: 3px;
+            }
+        }
+    }
+
+    .end {
+        margin-right: 50px;
+
+        .date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .tip {
+                color: #808080;
+                font-size: 13px;
+                margin-left: -20px;
+                margin-bottom: 3px;
+            }
+        }
+    }
+}
+
+.pricecount {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    color: #808080;
+    border-top: 1px solid #f2f2f2;
+
+    .start {
+        margin-left: 20px;
+    }
+
+    .end {
+        margin-right: 50px;
+    }
+}
+
+.keyword {
+    height: 40px;
+    line-height: 40px;
+    color: #808080;
+    border-top: 1px solid #f2f2f2;
+
+    span {
+        margin-left: 20px;
+    }
+
+}
+
+.hot-suggest {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-left: 10px;
+
+    .item {
+        padding: 4px 8px;
+        border-radius: 14px;
+        margin: 3px 5px;
+        font-size: 12px;
     }
 }
 </style>
