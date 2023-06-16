@@ -49,15 +49,21 @@
                     {{ item.tagText.text }}</div>
             </template>
         </div>
+
+        <!-- 搜索按钮 -->
+        <div class="search-btn">
+            <div class="btn" @click="searchClick">开始搜索</div>
+        </div>
     </div>
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
+import useHomeStore from '@/store/modules/home';
 import useCityStore from '@/store/modules/city'
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { formatMonthDay, getDiffDate } from '@/utils/format_date';
-import useHomeStore from '@/store/modules/home'
+
 const router = useRouter();
 
 // 获取城市的位置
@@ -117,9 +123,20 @@ const onConfirm = (value) => {
 
 //  热门建议
 const homeStore = useHomeStore();
-homeStore.fetchHotSuggestData();
 const { hotSuggests } = storeToRefs(homeStore);
 
+// 搜索按钮
+const searchClick = () => {
+    router.push({
+        path: '/search',
+        query: {
+            startDate: startDate.value,
+            endDate: endDate.value,
+            currentCity: currentCity.value.cityName,
+        }
+    })
+    console.log('搜索点击');
+}
 </script>
 <style lang="less" scoped>
 .location {
@@ -238,6 +255,26 @@ const { hotSuggests } = storeToRefs(homeStore);
         border-radius: 14px;
         margin: 3px 5px;
         font-size: 12px;
+    }
+}
+
+.search-btn {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .btn {
+        width: 342px;
+        height: 38px;
+        font-weight: 500;
+        max-height: 50px;
+        font-size: 18px;
+        line-height: 38px;
+        text-align: center;
+        border-radius: 20px;
+        color: #fff;
+        background-image: var(--theme-liner-gradient);
     }
 }
 </style>

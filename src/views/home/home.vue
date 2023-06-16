@@ -1,35 +1,24 @@
 <template>
     <div class="home">
         <home-nav-bar></home-nav-bar>
-        <div class="banner">
-            <!-- <img src="@/assets/img/home/banner.webp" alt=""> -->
-            <van-swipe :autoplay="3000" lazy-render>
-                <van-swipe-item v-for="image in images" :key="image">
-                    <img :src="getAssetsURL(image)" />
-                </van-swipe-item>
-            </van-swipe>
-
-        </div>
+        <home-banner></home-banner>
         <home-search-box></home-search-box>
+        <home-categories></home-categories>
+        <home-content></home-content>
+
     </div>
 </template>
 <script setup>
+import useHomeStore from '@/store/modules/home'
 import homeNavBar from './cpns/home-nav-bar.vue';
 import homeSearchBox from './cpns/home-search-box.vue';
-import { getAssetsURL } from '@/utils/load_assets'
+import homeBanner from './cpns/home-banner.vue';
+import homeCategories from './cpns/home-categories.vue';
+import homeContent from './cpns/home-content.vue';
 
-const images = ["home/banner1.jpg", "home/banner2.jpg", "home/banner.webp"];
-
-
+const homeStore = useHomeStore();
+homeStore.fetchHotSuggestData();
+homeStore.fetchCategoriesData();
+homeStore.fetchHouselistData();
 </script>
-<style lang="less" scoped>
-.home {
-    .banner {
-        img {
-            width: 100%;
-        }
-    }
-
-
-}
-</style>
+<style lang="less" scoped></style>

@@ -3,6 +3,8 @@
   --primary-color: #ff9854;
   /* 全局修改search样式 */
   --van-search-left-icon-color: #ff9854 !important;
+  /* 主题颜色的渐变 */
+  --theme-liner-gradient: linear-gradient(90deg, #fa8c1d, #fcaf3f);
 }
 
 body {
