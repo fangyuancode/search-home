@@ -8,8 +8,8 @@
                 <div class="summary">{{ itemData.summaryText }}</div>
                 <div class="name">{{ itemData.houseName }}</div>
                 <div class="price">
-                    <van-rate :model-value="Number(itemData.commentScore)"   color="#ffffff"/>
-                    <div class="new">{{ itemData.productPrice }}</div>
+                    <van-rate :model-value="Number(itemData.commentScore)"   color="#fff" :size="15" readonly allow-half/>
+                    <div class="new">￥{{ itemData.productPrice }}</div>
                 </div>
             </div>
         </div>

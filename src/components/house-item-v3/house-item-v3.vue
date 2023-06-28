@@ -2,14 +2,20 @@
     <div class="house-item">
         <div class="item-inner">
             <div class="cover">
-                <img :src="itemData.image.url" alt="">
+                <img :src="itemData?.image?.url" alt="">
             </div>
             <div class="info">
-                <div class="summary">{{ itemData.summaryText }}</div>
+                <div class="location">
+                    <img src="@/assets/img/home/location.png" alt="">
+                    <span>{{ itemData.location }}</span>
+                </div>
                 <div class="name">{{ itemData.houseName }}</div>
+                <div class="summary">{{ itemData.summaryText }}</div>
                 <div class="price">
-                    <van-rate :model-value="Number(itemData.commentScore)" color="#ffffff" />
-                    <div class="new">{{ itemData.productPrice }}</div>
+                    <!-- <van-rate :model-value="Number(itemData.commentScore)" color="#fff" :size="15" readonly allow-half /> -->
+                    <div class="new">￥{{ itemData.finalPrice }}</div>
+                    <div class="old">￥{{ itemData.productPrice }}</div>
+                    <div class="tip">{{ itemData?.priceTipBadge?.text }}</div>
                 </div>
             </div>
         </div>
