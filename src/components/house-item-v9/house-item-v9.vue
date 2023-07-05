@@ -8,7 +8,7 @@
                 <div class="summary">{{ itemData.summaryText }}</div>
                 <div class="name">{{ itemData.houseName }}</div>
                 <div class="price">
-                    <van-rate :model-value="Number(itemData.commentScore)"   color="#fff" :size="15" readonly allow-half/>
+                    <van-rate :model-value="Number(itemData.commentScore)" color="#fff" :size="15" readonly allow-half />
                     <div class="new">￥{{ itemData.productPrice }}</div>
                 </div>
             </div>
@@ -16,12 +16,13 @@
     </div>
 </template>
 <script setup>
-defineProps({
+const props = defineProps({
     itemData: {
         type: Object,
         default: () => ({})
     }
 })
+
 </script>
 <style lang="less" scoped>
 .house-item {

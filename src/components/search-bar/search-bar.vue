@@ -49,8 +49,6 @@ const endDateStr = computed(() => formatMonthDay(endDate.value));
     background: #f2f4f6;
 
     .left {
-        // max-width: 80px;
-
         font-weight: 500;
         min-width: 30px;
         font-size: 14px;

@@ -5,6 +5,8 @@
   --van-search-left-icon-color: #ff9854 !important;
   /* 主题颜色的渐变 */
   --theme-liner-gradient: linear-gradient(90deg, #fa8c1d, #fcaf3f);
+  --van-primary-color:var(--primary-color);
+  --van-text-color:var(--van-primary-color);
 }
 
 body {
@@ -14,6 +16,7 @@ body {
 .hidetabbar {
   position: relative;
   z-index: 9;
+  height: 100vh;
   background-color: #fff;
   overflow-y: auto;
 }

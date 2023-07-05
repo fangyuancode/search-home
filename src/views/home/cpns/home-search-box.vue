@@ -93,11 +93,9 @@ const { currentCity } = storeToRefs(cityStore);
 // 日期范围的处理
 const mainStore = useMainStore();
 const { startDate, endDate } = storeToRefs(mainStore)
-console.log(startDate, endDate);
 // 格式化当前时间
 const startDateStr = computed(() => formatMonthDay(startDate.value));
 const endDateStr = computed(() => formatMonthDay(endDate.value));
-
 const stayCount = ref(getDiffDate(startDate.value, endDate.value));
 
 // 日历
@@ -135,7 +133,6 @@ const searchClick = () => {
             currentCity: currentCity.value.cityName,
         }
     })
-    console.log('搜索点击');
 }
 </script>
 <style lang="less" scoped>

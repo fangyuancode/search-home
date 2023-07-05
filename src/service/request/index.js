@@ -1,5 +1,8 @@
 import axios from 'axios'
-import {BASE_URL,TIMEOUT} from './config'
+import { BASE_URL, TIMEOUT } from './config'
+import useMainStore from '@/store/modules/main'
+
+const mainStore = useMainStore();
 // 封装一个类
 class fyRequest {
     constructor(baseURL, timeout = 1000) {
@@ -7,6 +10,21 @@ class fyRequest {
         this.instance = axios.create({
             baseURL,
             timeout
+        })
+
+        this.instance.interceptors.request.use(config => {
+            mainStore.isLoading = true;
+            return config;
+        }, err => {
+            return err;
+        });
+        this.instance.interceptors.response.use(res => {
+            // 响应成功设置为false
+            mainStore.isLoading = false;
+            return res;
+        }, err => {
+            mainStore.isLoading = false;
+            return err;
         })
     }
     //传入的是Config对象
@@ -40,7 +58,7 @@ class fyRequest {
 // const hyRequest2 = new fyRequest("http://123.207.32.32:9002");
 
 //new一个实例，再导出出去。相当于创建了一个对应的fyRequest对象，在用里面的对象方法
-export default new fyRequest(BASE_URL,TIMEOUT);
+export default new fyRequest(BASE_URL, TIMEOUT);
 
 
 
