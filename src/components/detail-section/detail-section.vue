@@ -1,22 +1,31 @@
 <template>
     <div class="section">
         <div class="header">
-            <h2 class="title">房租设施</h2>
+            <h2 class="title">{{ title }}</h2>
         </div>
         <div class="content">
             <slot>
                 <h3>默认内容</h3>
             </slot>
         </div>
-        <div class="footer">
-            <span class="more">查看全部内容</span>
+        <div class="footer" v-if="moreText.length">
+            <span class="more">{{ moreText }}</span>
             <van-icon name="arrow" />
 
         </div>
     </div>
 </template>
 <script setup>
-
+defineProps({
+    title: {
+        type: String,
+        default: "默认标题"
+    },
+    moreText: {
+        type: String,
+        default: ''
+    }
+})
 </script>
 <style lang="less" scoped>
 .section {

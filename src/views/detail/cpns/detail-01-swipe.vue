@@ -39,7 +39,7 @@ for (const item of props.swipeData) {
     }
     valueArray.push(item)
 }
-console.log(swipeGroup);
+// console.log(swipeGroup);
 
 // 思路二:两次循环,好理解
 // for (const item of props.swipeData) {
